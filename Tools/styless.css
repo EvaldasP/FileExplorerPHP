@@ -1,0 +1,76 @@
+img {
+  transform: translateY(-2px);
+  width: 24px;
+}
+
+table {
+  margin-top: 30px;
+}
+
+body {
+  background-color: #212f3d;
+  font-family: "Roboto", sans-serif;
+}
+
+h2 {
+  margin-top: 30px;
+  margin-left: 50px;
+  color: white;
+}
+
+.intro {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.intro img {
+  width: 100px;
+  margin-bottom: 10px;
+}
+.intro h1 {
+  margin: 0;
+  color: #2e86c1;
+}
+
+#delete {
+  background-color: #cb4335;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 4px;
+}
+
+#back {
+  background-color: #2e86c1;
+  padding: 10px;
+  color: white;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+#back:hover {
+  outline: none;
+  background-color: teal;
+}
+
+#makedir {
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+#makedir input {
+  background-color: #212f3c;
+  border: none;
+  border: 1px solid #2e86c1;
+  padding: 5px;
+  color: white;
+  outline: none;
+  margin-right: 8px;
+}
+#makedir #create {
+  border: 1px solid #52be80;
+}
+
+#makedir #create:hover {
+  background-color: #52be80;
+}
