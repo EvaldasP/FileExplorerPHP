@@ -116,7 +116,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
                         echo
                             "<tr>
                         <td>" . '<img src =Nuotraukos/file.svg >' . " " . 'Folder' . "</td>
-                      <td>" . '<a href=?path=' . $_GET['path'] . urlencode($v) . '/>' . $v . '</a> ' . "</td>
+                      <td>" . '<a href=?path=' . rawurlencode($_GET['path']) . rawurlencode($v) . '/>' . $v . '</a> ' . "</td>
                       <td></td>
                     </tr>";
                     } else {
@@ -170,8 +170,10 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
                 header("Refresh:0");
             }
         }
+
+        // Back mygtukas
         echo
-            '<a id=back href=?path=' . dirname($_GET['path']) . '/>' . "BACK" . '</a> ';
+            '<a id=back href=?path=' . rawurlencode(dirname($_GET['path'])) . '/>' . "BACK" . '</a> ';
         ?>
 
     </div>
