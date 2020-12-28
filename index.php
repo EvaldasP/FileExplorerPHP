@@ -29,19 +29,12 @@
         </thead>
         <tbody>
 
-
-
             <?php
             $local_dir = "./" .  $_GET['path'];
             $path = $_GET['path'];
-
             print "<h2> $path</h2>";
-
             $files = scandir($local_dir);
             $files = array_diff($files, array('.', '..'));
-
-
-
             foreach ($files as $x => $v) {
                 if (is_dir($local_dir . $v)) {
                     echo
@@ -55,7 +48,8 @@
                         "<tr>
                         <td>" . '<img src =Nuotraukos/document.svg >' .  " " . 'File' . "</td>
                         <td>" . $v .  "</td>
-                        <td> </td>
+                        <td><form method='post'><input name='failas' value='$v' type='hidden'>
+                        <input id='delete'  name='delete' value='delete' type='submit'></form> </td>
                           </tr>";
                 }
             }
@@ -64,8 +58,25 @@
     </table>
 
 
+    <?php
+
+    // File trinimas ----- 
+
+    if ($_POST['delete']) {
+        $file = $_POST['failas'];
+        $filokelias = $local_dir . $file;
+        if (file_exists($filokelias)) {
+            unlink($filokelias);
+            header("Refresh:0");
+            //echo $file;
+            //echo $filokelias;
+        }
+    }
 
 
+
+
+    ?>
 
     <form id='makedir' method="post">
         <input type="text" name="pavadinimas">
@@ -73,7 +84,11 @@
     </form>
 
 
+
     <?php
+
+    //Direktorijos kurimas ----
+
     $name = $_POST["pavadinimas"];
     if (isset($_POST["submit1"])) {
         if (!is_dir($local_dir . $name)) {
@@ -84,11 +99,6 @@
     echo
         '<a id=back href=?path=' . dirname($_GET['path']) . '/>' . "BACK" . '</a> ';
     ?>
-
-
-
-
-
 
 </body>
 
