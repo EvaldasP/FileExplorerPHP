@@ -1,4 +1,5 @@
 <?php
+include './Tools/functions.php';
 session_start();
 // logout logic
 if (isset($_GET['action']) and $_GET['action'] == 'logout') {
@@ -23,11 +24,35 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
 
 <body>
 
+    <?php
+
+    //Funkcijos aprasytos Tools/functions.php 
+
+    if ($_SESSION['logged_in'] == true) {
+        if (isset($_POST['download'])) {
+            downloandFile();
+        }
+        if (isset($_POST["submit1"])) {
+            makeDir();
+        }
+
+        // Failo pridejimas
+        if (isset($_FILES['image'])) {
+            addfile();
+        }
+
+        // Failo istrinimas
+        if ($_POST['delete']) {
+            deleteFile();
+        }
+    }
+    ?>
+
 
 
 
     <?php
-    $msg = '';
+
     if (
         isset($_POST['login'])
         && !empty($_POST['username'])
@@ -49,20 +74,23 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
 
     <div id="login">
         <form action="./index.php" method="post">
-            <h2>Enter Username and Password</h2>
+            <img style=width:100px src="Nuotraukos/explorer.svg" alt="">
+            <h1 style="color: #2e86c1;" class="Title">File Explorer PHP</h1>
+            <h2>Please Log In</h2>
             <input type="text" name="username" placeholder="username = admin" required autofocus>
             <input type="password" name="password" placeholder="password = 1234" required>
             <button id="loginButton" type="submit" name="login">Login</button>
             <h4><?php echo $msg; ?></h4>
         </form>
-
     </div>
 
 
 
-    <?
-    if ($_SESSION['logged_in'] == true){
-        
+    <?php
+
+    // Logika kuri prisijungus parodo contenta ir paslepia logino forma
+
+    if ($_SESSION['logged_in'] == true) {
         echo '<style type="text/css">
         #wrapper {
             display: block;
@@ -71,14 +99,12 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
             display:none;
         }
         </style>';
-
         $hello = 'Hello' . ', ' .   $_SESSION['username'];
-
         echo "<h4 style=color:#52be80> $hello  </h4>";
-        echo " <h5><a style=color:#cb4335 href='index.php?action=logout'>Log Out</a></h5>" ;
+        echo " <h5><a style=color:#cb4335 href='index.php?action=logout'>Log Out</a></h5>";
     }
- 
-?>
+
+    ?>
 
 
 
@@ -87,8 +113,6 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
             <img src="Nuotraukos/explorer.svg" alt="">
             <h1 class="Title">File Explorer PHP</h1>
         </div>
-
-
         <table class="table table-striped table-dark">
             <thead>
                 <tr>
@@ -104,29 +128,36 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
 
                 // Direktorijos skaitymas ir atvaizdavimas
 
-                $local_dir = "./" .  $_GET['path'];
+                if ($_SESSION['logged_in'] == true) {
+                    $local_dir = "./" .  $_GET['path'];
 
-                $path = $_GET['path'];
+                    $path = urldecode($_GET['path']);
 
-                print "<h2> $path </h2>";
-                $files = scandir($local_dir);
-                $files = array_diff($files, array('.', '..'));
-                foreach ($files as $x => $v) {
-                    if (is_dir($local_dir . $v)) {
-                        echo
-                            "<tr>
-                        <td>" . '<img src =Nuotraukos/file.svg >' . " " . 'Folder' . "</td>
-                      <td>" . '<a href=?path=' . rawurlencode($_GET['path']) . rawurlencode($v) . '/>' . $v . '</a> ' . "</td>
-                      <td></td>
-                    </tr>";
-                    } else {
-                        echo
-                            "<tr>
+                    print "<h2> $path </h2>";
+                    $files = scandir($local_dir);
+                    $files = array_diff($files, array('.', '..'));
+                    foreach ($files as $x => $v) {
+                        if (is_dir($local_dir . $v)) {
+                            echo
+                                "<tr>
+                            <td>" . '<img src =Nuotraukos/file.svg >' . " " . 'Folder' . "</td>
+                            <td>" . '<a href=?path=' . rawurlencode($_GET['path']) . rawurlencode($v) . '/>' . $v . '</a> ' . "</td>
+                            <td></td>
+                                 </tr>";
+                        } else {
+                            echo
+                                "<tr>
                         <td>" . '<img src =Nuotraukos/document.svg >' .  " " . 'File' . "</td>
                         <td>" . $v .  "</td>
-                        <td><form method='post'><input name='failas' value='$v' type='hidden'>
-                        <input id='delete'  name='delete' value='delete' type='submit'></form> </td>
+                        <td id = actions><form method='post'><input name='failas' value='$v' type='hidden'>
+                        <input id='delete'  name='delete' value='delete' type='submit'></form> 
+                        
+                        <form id=dalykas method='post'>
+                        <input name='fileDownload' value='$v' type='hidden'>
+                        <input id =downloadButton name='download' value='download' type='submit'>
+                        </form> </td>
                           </tr>";
+                        }
                     }
                 }
 
@@ -134,52 +165,25 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
             </tbody>
         </table>
 
+        <div id="bottom">
+            <form id='makedir' method="post">
+                <input type="text" name="pavadinimas">
+                <input id="create" name="submit1" type="submit" value="Create">
+            </form>
+            <form id="uploadFile" action="" method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" />
+                <input id="uploadButton" type="submit" value="Upload" />
+            </form>
+        </div>
 
         <?php
-
-        // File trinimas ----- 
-
-        if ($_POST['delete']) {
-            $file = $_POST['failas'];
-            $filokelias = $local_dir . $file;
-            if (file_exists($filokelias)) {
-                unlink($filokelias);
-                header("Refresh:0");
-            }
-        }
-
-
-
-
-        ?>
-
-        <form id='makedir' method="post">
-            <input type="text" name="pavadinimas">
-            <input id="create" name="submit1" type="submit" value="Create">
-        </form>
-
-
-
-        <?php
-        //Direktorijos kurimas ----
-
-        $name = $_POST["pavadinimas"];
-        if (isset($_POST["submit1"])) {
-            if (!is_dir($local_dir . $name)) {
-                mkdir($local_dir . "$name");
-                header("Refresh:0");
-            }
-        }
-
         // Back mygtukas
-        echo
-            '<a id=back href=?path=' . rawurlencode(dirname($_GET['path'])) . '/>' . "BACK" . '</a> ';
+        if ($_SESSION['logged_in'] == true) {
+            echo
+                '<a id=back href=?path=' . rawurlencode(dirname($_GET['path'])) . '/>' . "BACK" . '</a> ';
+        }
         ?>
-
     </div>
-
-
-
 </body>
 
 </html>

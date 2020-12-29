@@ -8,7 +8,7 @@ table {
 }
 
 body {
-  background-color: #212f3d;
+  background-color: #212f3c;
   font-family: "Roboto", sans-serif;
 }
 
@@ -34,12 +34,18 @@ h2 {
   color: #2e86c1;
 }
 
-#delete {
+#delete,
+#downloadButton {
   background-color: #cb4335;
   color: white;
   outline: none;
   border: none;
-  padding: 4px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+#downloadButton {
+  background-color: #2e86c1;
 }
 
 #back {
@@ -71,7 +77,8 @@ h2 {
   border: 1px solid #52be80;
 }
 
-#makedir #create:hover {
+#makedir #create:hover,
+#uploadButton:hover {
   background-color: #52be80;
 }
 
@@ -91,7 +98,7 @@ h2 {
 }
 #login form input {
   margin-bottom: 10px;
-  width: 80%;
+
   outline: none;
   background-color: #212f3c;
   color: white;
@@ -131,9 +138,37 @@ h5 {
   border: none;
   border: 1px solid #52be80;
   width: 40%;
+  margin-top: 30px;
   transition: 1s;
 }
 
 #loginButton:hover {
   background-color: #52be80;
+}
+
+#bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+#uploadFile {
+  margin-right: 20px;
+}
+
+#uploadFile input {
+  background-color: #212f3c;
+  border: none;
+  border: 1px solid #2e86c1;
+  padding: 5px;
+  color: white;
+  outline: none;
+  margin-right: 8px;
+}
+
+#uploadFile #uploadButton {
+  border: 1px solid #52be80;
+}
+
+#actions {
+  display: flex;
 }
