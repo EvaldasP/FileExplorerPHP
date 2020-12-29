@@ -29,15 +29,19 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
     //Funkcijos aprasytos Tools/functions.php 
 
     if ($_SESSION['logged_in'] == true) {
+
+        // Failo parsiuntimas
         if (isset($_POST['download'])) {
             downloandFile();
         }
+
+        // Direktorijos sukurimas
         if (isset($_POST["submit1"])) {
             makeDir();
         }
 
         // Failo pridejimas
-        if (isset($_FILES['image'])) {
+        if (isset($_FILES['file'])) {
             addfile();
         }
 
@@ -47,8 +51,6 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
         }
     }
     ?>
-
-
 
 
     <?php
@@ -99,6 +101,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
             display:none;
         }
         </style>';
+
         $hello = 'Hello' . ', ' .   $_SESSION['username'];
         echo "<h4 style=color:#52be80> $hello  </h4>";
         echo " <h5><a style=color:#cb4335 href='index.php?action=logout'>Log Out</a></h5>";
@@ -131,9 +134,10 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
                 if ($_SESSION['logged_in'] == true) {
                     $local_dir = "./" .  $_GET['path'];
 
-                    $path = urldecode($_GET['path']);
+                    $path =  $_GET['path'];
 
                     print "<h2> $path </h2>";
+
                     $files = scandir($local_dir);
                     $files = array_diff($files, array('.', '..'));
                     foreach ($files as $x => $v) {
@@ -171,12 +175,13 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
                 <input id="create" name="submit1" type="submit" value="Create">
             </form>
             <form id="uploadFile" action="" method="POST" enctype="multipart/form-data">
-                <input type="file" name="image" />
+                <input type="file" name="file" />
                 <input id="uploadButton" type="submit" value="Upload" />
             </form>
         </div>
 
         <?php
+
         // Back mygtukas
         if ($_SESSION['logged_in'] == true) {
             echo
