@@ -41,15 +41,25 @@ h2 {
   color: white;
   outline: none;
   border: none;
-
   margin-right: 10px;
   font-size: 1.5rem;
   width: 40px;
   height: 40px;
+  transition: 0.3s;
+}
+#downloadButton {
+  background-color: #2e86c1;
+}
+
+#delete:hover {
+  background-color: #ea0f0f;
 }
 
 #downloadButton {
   background-color: #2e86c1;
+}
+#downloadButton:hover {
+  background-color: #0aecbc;
 }
 
 #back {
