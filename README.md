@@ -2,7 +2,7 @@
 
 ---
 
-##Features
+## Features
 
 - Login
 - Create Directories
@@ -15,4 +15,4 @@
 
 Download repository and upload to localhost folder
 
-for example: _ C:\Program Files\Ampps\www_
+for example: _C:\Program Files\Ampps\www\__

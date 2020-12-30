@@ -1,7 +1,8 @@
 <?php
 include './Tools/functions.php';
 session_start();
-// logout logic
+// Atsijungimo logika
+
 if (isset($_GET['action']) and $_GET['action'] == 'logout') {
     session_start();
     unset($_SESSION['username']);
@@ -54,6 +55,8 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
 
 
     <?php
+
+    // Prisijungimo logika
 
     if (
         isset($_POST['login'])
@@ -154,11 +157,11 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
                         <td>" . '<img src =Nuotraukos/document.svg >' .  " " . 'File' . "</td>
                         <td>" . $v .  "</td>
                         <td id = actions><form method='post'><input name='failas' value='$v' type='hidden'>
-                        <input id='delete'  name='delete' value='delete' type='submit'></form> 
+                        <input id='delete'  name='delete' value='×' type='submit'></form> 
                         
                         <form id=dalykas method='post'>
                         <input name='fileDownload' value='$v' type='hidden'>
-                        <input id =downloadButton name='download' value='download' type='submit'>
+                        <input id =downloadButton name='download'. value='⭳' type='submit'>
                         </form> </td>
                           </tr>";
                         }
