@@ -31,13 +31,13 @@ function downloandFile()
     ob_clean();
     ob_start();
     header('Content-Description: File Transfer');
-    header('Content-Type: application/pdf'); // mime type → ši forma turėtų veikti daugumai failų, su šiuo mime type. Jei neveiktų reiktų daryti sudėtingesnę logiką
+    header('Content-Type: application/pdf');
     header('Content-Disposition: attachment; filename=' . basename($fileToDownloadEscaped));
     header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
-    header('Content-Length: ' . filesize($fileToDownloadEscaped)); // kiek baitų browseriui laukti, jei 0 - failas neveiks nors bus sukurtas
+    header('Content-Length: ' . filesize($fileToDownloadEscaped));
     ob_end_flush();
     readfile($fileToDownloadEscaped);
     exit;
@@ -47,7 +47,6 @@ function downloandFile()
 
 function makeDir()
 {
-
     $path = "./" .  $_GET['path'];
     $name = $_POST["pavadinimas"];
     if (isset($_POST["submit1"])) {
@@ -60,6 +59,7 @@ function makeDir()
 
 
 function deleteFile()
+
 {
     $file = $_POST['failas'];
     $path = "./" .  $_GET['path'];

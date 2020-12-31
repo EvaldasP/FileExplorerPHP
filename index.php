@@ -27,6 +27,7 @@ if (isset($_GET['action']) and $_GET['action'] == 'logout') {
 
     <?php
 
+
     //Funkcijos aprasytos Tools/functions.php 
 
     if ($_SESSION['logged_in'] == true) {
